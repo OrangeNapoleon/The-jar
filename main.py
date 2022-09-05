@@ -34,7 +34,7 @@ player = pygame.Rect(swidth/2, sheight/2, ((swidth/2)/8), ((swidth/2)/8))
 enemy_length=random.randint((swidth/4)-player.width, (((swidth/2)-player.width)-player.width/2))
 enemy_pos=0
 enemy = pygame.Rect((swidth/4)+5, 0, enemy_length, int(sheight/3)/8)
-enemy_spd = 1
+enemy_spd = 5
 
 points = 0
 point_gain = False
@@ -43,8 +43,6 @@ font = pygame.font.SysFont('MathJax_Typewriter', 30)
 text = font.render('Points:\n'+str(points), False, black)
 
 y_change = 0
-
-print(K_RIGHT)
 
 while True:
     clock.tick(FPS)
@@ -67,7 +65,7 @@ while True:
             if event.key == data['controls']['right'] or event.key == data['controls']['left']:
                 x_change = 0
 
-    if player.y >= (sheight/4)*3 or player.x <= (swidth/4) or player.x >= (((swidth/4)*3)-player.width) or player.y <= 0:
+    if player.y >= ((sheight/4)*3)-player.height or player.x <= (swidth/4) or player.x >= (((swidth/4)*3)-player.width) or player.y <= 0:
         pygame.quit()
         print(f"YOU LOST!\npoints:{points}")
         exit()
@@ -110,7 +108,7 @@ while True:
     #BOUNDARIES
     pygame.draw.rect(screen,black, (swidth/4,0,5,sheight))
     pygame.draw.rect(screen,black, ((swidth/4)*3,0,5,sheight))
-    pygame.draw.rect(screen,red, ((swidth/4)+5,((sheight/4)*3)+player.height,(swidth/2)-5,((sheight/4)*3)))
+    pygame.draw.rect(screen,red, ((swidth/4)+5,((sheight/4)*3),(swidth/2)-5,((sheight/4)*3)))
     #BOUNDARIES
 
     y_change += 0.1

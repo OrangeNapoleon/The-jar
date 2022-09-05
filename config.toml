@@ -1,7 +1,7 @@
 [video]
 fullscreen = false	#doesn't currently work
 screen.width = 800
-screen.height = 600 
+screen.height = 600
 
 [controls]
 #to understand which number to use for the key look in 'controls.txt', load up a python shell, import pygame and print out the key you want e.g.
