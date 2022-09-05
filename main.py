@@ -3,13 +3,19 @@
 import pygame
 from pygame.locals import *
 import random
+import pytomlpp
 
 pygame.init()
 pygame.font.init()
 
+data = pytomlpp.load('config.toml')
+
+swidth = data['video']['screen']['width']
+sheight = data['video']['screen']['height']
+
 clock = pygame.time.Clock()
 
-screen = pygame.display.set_mode((800, 600))
+screen = pygame.display.set_mode((swidth, sheight))
 pygame.display.set_caption("The jar")
 
 white=(255,255,255)
@@ -18,17 +24,16 @@ green=(0,255,0)
 blue=(0,0,255)
 black=(0,0,0)
 
-custom_colour=[0,0,0]
-
 FPS = 60
 
 x_change = 0
 
-enemy_length=random.randint(150, 350)
-enemy_pos=0
-enemy = pygame.Rect(205, 0, enemy_length, 25)
+player = pygame.Rect(swidth/2, sheight/2, ((swidth/2)/8), ((swidth/2)/8))
 
-player = pygame.Rect(375, 300, 50, 50)
+enemy_length=random.randint((swidth/4)-player.width, (((swidth/2)-player.width)-player.width/2))
+enemy_pos=0
+enemy = pygame.Rect((swidth/4)+5, 0, enemy_length, int(sheight/3)/8)
+enemy_spd = 1
 
 points = 0
 point_gain = False
@@ -41,7 +46,7 @@ y_change = 0
 while True:
     clock.tick(FPS)
     
-    enemy.y += 1
+    enemy.y += enemy_spd
 
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -49,17 +54,17 @@ while True:
             exit()
         if event.type == KEYDOWN:
             if event.key == K_RIGHT:
-                x_change = 10
+                x_change = player.width/5
             if event.key == K_LEFT:
-                x_change = -10
+                x_change = -(player.width/5)
             if event.key == K_SPACE:
                 y_change = 0
-                player.y -= 30
+                player.y -= (player.width/5)*3
         if event.type == KEYUP:
             if event.key == K_RIGHT or event.key == K_LEFT:
                 x_change = 0
 
-    if player.y >= 400 or player.x <= 200 or player.x >= (600-50) or player.y <= 0:
+    if player.y >= (sheight/4)*3 or player.x <= (swidth/4) or player.x >= (((swidth/4)*3)-player.width) or player.y <= 0:
         pygame.quit()
         print(f"YOU LOST!\npoints:{points}")
         exit()
@@ -69,11 +74,11 @@ while True:
     #screen updates: START
     #enemy bullshit
     if (enemy_pos % 2) == 0:
-        enemy.x = 205 
+        enemy.x = ((swidth/4)+5)
         enemy.width = enemy_length
     else:
         enemy.width = enemy_length
-        enemy.x = (200+(400-enemy_length))
+        enemy.x = ((swidth/4)+((swidth/2)-enemy_length))
         
     pygame.draw.rect(screen,blue,enemy)
 
@@ -82,13 +87,14 @@ while True:
         print(f"YOU LOST!\nPoints:{points}")
         exit()
 
-    if enemy.y >= 400:
+    if enemy.y >= (sheight/4)*3:
         enemy.y = 0
-        enemy_length=random.randint(150, 300)
+        enemy_length=random.randint((swidth/4)-player.width, (((swidth/2)-player.width)-player.width/2))
         enemy_pos += 1
         point_gain = False
+        enemy_spd += 0.1
 
-    if player.y < enemy.y-50 and not point_gain:
+    if player.y < enemy.y-player.width and not point_gain:
         points += 1
         point_gain = True
     #enemy bullshit
@@ -99,9 +105,9 @@ while True:
     pygame.draw.rect(screen,green,player)
 
     #BOUNDARIES
-    pygame.draw.rect(screen,black, (200,0,5,600))
-    pygame.draw.rect(screen,black, (600,0,5,600))
-    pygame.draw.rect(screen,red, (205,450,395,200))
+    pygame.draw.rect(screen,black, (swidth/4,0,5,sheight))
+    pygame.draw.rect(screen,black, ((swidth/4)*3,0,5,sheight))
+    pygame.draw.rect(screen,red, ((swidth/4)+5,((sheight/4)*3)+player.height,(swidth/2)-5,((sheight/4)*3)))
     #BOUNDARIES
 
     y_change += 0.1
@@ -113,4 +119,3 @@ while True:
     #screen updates: END
 
     pygame.display.update()
-

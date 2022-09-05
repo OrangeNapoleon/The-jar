@@ -1,0 +1,10 @@
+[video]
+fullscreen = false
+screen.width = 800
+screen.height = 600 
+
+[controls]
+#see controls.txt for list of all possible keys
+jump = "K_BACKSPACE"
+right = "K_RIGHT"
+left = "K_LEFT"
