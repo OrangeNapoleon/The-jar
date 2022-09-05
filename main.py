@@ -16,6 +16,7 @@ sheight = data['video']['screen']['height']
 clock = pygame.time.Clock()
 
 screen = pygame.display.set_mode((swidth, sheight))
+
 pygame.display.set_caption("The jar")
 
 white=(255,255,255)
