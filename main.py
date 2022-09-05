@@ -43,6 +43,8 @@ text = font.render('Points:\n'+str(points), False, black)
 
 y_change = 0
 
+print(K_RIGHT)
+
 while True:
     clock.tick(FPS)
     
@@ -53,15 +55,15 @@ while True:
             pygame.quit()
             exit()
         if event.type == KEYDOWN:
-            if event.key == K_RIGHT:
+            if event.key == data['controls']['right']:
                 x_change = player.width/5
-            if event.key == K_LEFT:
+            if event.key == data['controls']['left']:
                 x_change = -(player.width/5)
-            if event.key == K_SPACE:
+            if event.key == data['controls']['jump']:
                 y_change = 0
                 player.y -= (player.width/5)*3
         if event.type == KEYUP:
-            if event.key == K_RIGHT or event.key == K_LEFT:
+            if event.key == data['controls']['right'] or event.key == data['controls']['left']:
                 x_change = 0
 
     if player.y >= (sheight/4)*3 or player.x <= (swidth/4) or player.x >= (((swidth/4)*3)-player.width) or player.y <= 0:

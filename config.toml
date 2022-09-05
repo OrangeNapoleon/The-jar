@@ -4,7 +4,10 @@ screen.width = 800
 screen.height = 600 
 
 [controls]
-#see controls.txt for list of all possible keys
-jump = "K_BACKSPACE"
-right = "K_RIGHT"
-left = "K_LEFT"
+#to understand which number to use for the key look in 'controls.txt', load up a python shell, import pygame and print out the key you want e.g.
+#import pygame
+#print(K_RIGHT)
+#>1073741903
+jump = 32		#SPACEBAR
+right = 1073741903	#RIGHT ARROW
+left = 1073741904	#LEFT ARROW
